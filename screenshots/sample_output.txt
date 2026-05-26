@@ -1,0 +1,139 @@
+
+
+╔══════════════════════════════════════════════════════╗
+║          MediExpert – Medical Expert System          ║
+║    APT 3020B  |  Knowledge Representation Lab        ║
+╚══════════════════════════════════════════════════════╝
+
+Available Symptoms:
+   1. Fever                       2. Headache
+   3. Cough                       4. Chest Pain
+   5. Sneezing                    6. Runny Nose
+   7. Fatigue                     8. Sore Throat
+   9. Vomiting                   10. Diarrhea
+  11. Rash                       12. Joint Pain
+  13. Shortness Of Breath        14. Loss Of Appetite
+  15. Chills                   
+
+Enter your symptoms separated by commas
+(e.g.  fever, headache, fatigue   or   1, 7, 2 for numbered entries)
+  >> 
+Symptoms accepted: Fever, Headache, Fatigue
+
+────────────────────────────────────────────────────────
+  Running inference engine…
+────────────────────────────────────────────────────────
+
+  ✔  Confirmed Diagnoses (1 found):
+
+  Diagnosis   : Malaria
+  Confidence  : 85%
+  Severity    : HIGH
+  Description : A mosquito-borne infectious disease caused by Plasmodium parasites.
+  Matched     : Fatigue, Fever, Headache
+  Action      : Seek immediate medical attention. Antimalarial medication required.
+
+  ⚠  Possible Diagnoses – Partial Match (1 found):
+
+  Diagnosis   : Typhoid  [Partial Match]
+  Confidence  : 58%
+  Severity    : HIGH
+  Description : A bacterial infection caused by Salmonella typhi spread through contaminated food or water.
+  Matched     : Fatigue, Fever, Headache
+  Also check  : Loss Of Appetite
+  Action      : Requires antibiotic treatment. Consult a doctor immediately.
+
+────────────────────────────────────────────────────────
+  Check another patient? (yes/no): 
+Available Symptoms:
+   1. Fever                       2. Headache
+   3. Cough                       4. Chest Pain
+   5. Sneezing                    6. Runny Nose
+   7. Fatigue                     8. Sore Throat
+   9. Vomiting                   10. Diarrhea
+  11. Rash                       12. Joint Pain
+  13. Shortness Of Breath        14. Loss Of Appetite
+  15. Chills                   
+
+Enter your symptoms separated by commas
+(e.g.  fever, headache, fatigue   or   1, 7, 2 for numbered entries)
+  >> 
+Symptoms accepted: Cough, Chest Pain, Fatigue
+
+────────────────────────────────────────────────────────
+  Running inference engine…
+────────────────────────────────────────────────────────
+
+  ✔  Confirmed Diagnoses (1 found):
+
+  Diagnosis   : Pneumonia
+  Confidence  : 88%
+  Severity    : HIGH
+  Description : An infection that inflames the air sacs in one or both lungs.
+  Matched     : Chest Pain, Cough, Fatigue
+  Action      : Visit a doctor immediately. May require antibiotics or hospitalisation.
+
+────────────────────────────────────────────────────────
+  Check another patient? (yes/no): 
+Available Symptoms:
+   1. Fever                       2. Headache
+   3. Cough                       4. Chest Pain
+   5. Sneezing                    6. Runny Nose
+   7. Fatigue                     8. Sore Throat
+   9. Vomiting                   10. Diarrhea
+  11. Rash                       12. Joint Pain
+  13. Shortness Of Breath        14. Loss Of Appetite
+  15. Chills                   
+
+Enter your symptoms separated by commas
+(e.g.  fever, headache, fatigue   or   1, 7, 2 for numbered entries)
+  >> 
+Symptoms accepted: Sneezing, Runny Nose, Sore Throat
+
+────────────────────────────────────────────────────────
+  Running inference engine…
+────────────────────────────────────────────────────────
+
+  ✔  Confirmed Diagnoses (1 found):
+
+  Diagnosis   : Flu
+  Confidence  : 80%
+  Severity    : MODERATE
+  Description : A contagious respiratory illness caused by influenza viruses.
+  Matched     : Runny Nose, Sneezing, Sore Throat
+  Action      : Rest, stay hydrated, and consider antiviral medication if severe.
+
+────────────────────────────────────────────────────────
+  Check another patient? (yes/no): 
+Available Symptoms:
+   1. Fever                       2. Headache
+   3. Cough                       4. Chest Pain
+   5. Sneezing                    6. Runny Nose
+   7. Fatigue                     8. Sore Throat
+   9. Vomiting                   10. Diarrhea
+  11. Rash                       12. Joint Pain
+  13. Shortness Of Breath        14. Loss Of Appetite
+  15. Chills                   
+
+Enter your symptoms separated by commas
+(e.g.  fever, headache, fatigue   or   1, 7, 2 for numbered entries)
+  >> 
+Symptoms accepted: Vomiting, Diarrhea, Fatigue
+
+────────────────────────────────────────────────────────
+  Running inference engine…
+────────────────────────────────────────────────────────
+
+  ✔  Confirmed Diagnoses (1 found):
+
+  Diagnosis   : Food Poisoning
+  Confidence  : 82%
+  Severity    : MODERATE
+  Description : Illness caused by eating contaminated, spoiled, or toxic food.
+  Matched     : Diarrhea, Fatigue, Vomiting
+  Action      : Stay hydrated. Seek medical care if symptoms persist beyond 48 hours.
+
+────────────────────────────────────────────────────────
+  Check another patient? (yes/no): 
+Thank you for using MediExpert. Stay healthy!
+

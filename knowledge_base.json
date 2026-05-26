@@ -1,0 +1,97 @@
+{
+  "symptoms": [
+    "fever",
+    "headache",
+    "cough",
+    "chest_pain",
+    "sneezing",
+    "runny_nose",
+    "fatigue",
+    "sore_throat",
+    "vomiting",
+    "diarrhea",
+    "rash",
+    "joint_pain",
+    "shortness_of_breath",
+    "loss_of_appetite",
+    "chills"
+  ],
+  "diseases": {
+    "Malaria": {
+      "description": "A mosquito-borne infectious disease caused by Plasmodium parasites.",
+      "severity": "high",
+      "recommendation": "Seek immediate medical attention. Antimalarial medication required."
+    },
+    "Pneumonia": {
+      "description": "An infection that inflames the air sacs in one or both lungs.",
+      "severity": "high",
+      "recommendation": "Visit a doctor immediately. May require antibiotics or hospitalisation."
+    },
+    "Flu": {
+      "description": "A contagious respiratory illness caused by influenza viruses.",
+      "severity": "moderate",
+      "recommendation": "Rest, stay hydrated, and consider antiviral medication if severe."
+    },
+    "Food Poisoning": {
+      "description": "Illness caused by eating contaminated, spoiled, or toxic food.",
+      "severity": "moderate",
+      "recommendation": "Stay hydrated. Seek medical care if symptoms persist beyond 48 hours."
+    },
+    "Typhoid": {
+      "description": "A bacterial infection caused by Salmonella typhi spread through contaminated food or water.",
+      "severity": "high",
+      "recommendation": "Requires antibiotic treatment. Consult a doctor immediately."
+    },
+    "Common Cold": {
+      "description": "A viral infection of the upper respiratory tract.",
+      "severity": "low",
+      "recommendation": "Rest, fluids, and over-the-counter medication for symptom relief."
+    }
+  },
+  "rules": [
+    {
+      "id": "R1",
+      "conditions": ["fever", "headache", "fatigue"],
+      "diagnosis": "Malaria",
+      "confidence": 0.85
+    },
+    {
+      "id": "R2",
+      "conditions": ["cough", "chest_pain", "fatigue"],
+      "diagnosis": "Pneumonia",
+      "confidence": 0.88
+    },
+    {
+      "id": "R3",
+      "conditions": ["sneezing", "runny_nose", "sore_throat"],
+      "diagnosis": "Flu",
+      "confidence": 0.80
+    },
+    {
+      "id": "R4",
+      "conditions": ["vomiting", "diarrhea", "fatigue"],
+      "diagnosis": "Food Poisoning",
+      "confidence": 0.82
+    },
+    {
+      "id": "R5",
+      "conditions": ["fever", "headache", "loss_of_appetite", "fatigue"],
+      "diagnosis": "Typhoid",
+      "confidence": 0.78
+    },
+    {
+      "id": "R6",
+      "conditions": ["sneezing", "runny_nose", "cough"],
+      "diagnosis": "Common Cold",
+      "confidence": 0.75
+    }
+  ],
+  "facts": {
+    "system_name": "MediExpert",
+    "version": "1.0",
+    "created_for": "APT 3020B - Knowledge Representation Lab",
+    "institution": "United States International University - Africa",
+    "inference_engine": "Forward Chaining",
+    "knowledge_type": "Rule-Based"
+  }
+}
