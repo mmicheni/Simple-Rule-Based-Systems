@@ -1,0 +1,358 @@
+{
+  "default_constants": {
+    "recommended_savings_rate": 20.0,
+    "min_emergency_fund_months_stable": 3.0,
+    "min_emergency_fund_months_unstable": 6.0,
+    "high_dti_threshold": 40.0,
+    "high_interest_rate_threshold": 7.0
+  },
+  "rules": [
+    {
+      "id": "derive_deficit",
+      "category": "Budgeting",
+      "description": "Determine if user is in a budget deficit",
+      "if": {
+        "fact": "savings_rate_pct",
+        "operator": "<",
+        "value": 0.0
+      },
+      "then": {
+        "action": "derive",
+        "fact": "is_in_deficit",
+        "value": true
+      }
+    },
+    {
+      "id": "derive_adequate_emergency_fund_stable",
+      "category": "Emergency Fund",
+      "description": "Determine if user has adequate emergency fund with stable income",
+      "if": {
+        "and": [
+          {"fact": "has_stable_income", "operator": "==", "value": true},
+          {"fact": "emergency_fund_months", "operator": ">=", "value": 3.0}
+        ]
+      },
+      "then": {
+        "action": "derive",
+        "fact": "has_adequate_emergency_fund",
+        "value": true
+      }
+    },
+    {
+      "id": "derive_adequate_emergency_fund_unstable",
+      "category": "Emergency Fund",
+      "description": "Determine if user has adequate emergency fund with unstable income",
+      "if": {
+        "and": [
+          {"fact": "has_stable_income", "operator": "==", "value": false},
+          {"fact": "emergency_fund_months", "operator": ">=", "value": 6.0}
+        ]
+      },
+      "then": {
+        "action": "derive",
+        "fact": "has_adequate_emergency_fund",
+        "value": true
+      }
+    },
+    {
+      "id": "derive_has_high_interest_debt",
+      "category": "Debt Management",
+      "description": "Determine if user has high interest debt",
+      "if": {
+        "fact": "high_interest_debt",
+        "operator": ">",
+        "value": 0.0
+      },
+      "then": {
+        "action": "derive",
+        "fact": "has_high_interest_debt",
+        "value": true
+      }
+    },
+    {
+      "id": "derive_ready_to_invest",
+      "category": "Investment",
+      "description": "Determine if user is ready to invest (adequate emergency fund and no high interest debt)",
+      "if": {
+        "and": [
+          {"fact": "has_adequate_emergency_fund", "operator": "==", "value": true},
+          {"fact": "has_high_interest_debt", "operator": "!=", "value": true}
+        ]
+      },
+      "then": {
+        "action": "derive",
+        "fact": "ready_to_invest",
+        "value": true
+      }
+    },
+    {
+      "id": "rec_budget_deficit",
+      "category": "Budgeting",
+      "description": "Recommendation for budget deficit",
+      "if": {
+        "fact": "is_in_deficit",
+        "operator": "==",
+        "value": true
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "critical",
+        "message": "CRITICAL: You are running a monthly budget deficit of {monthly_deficit:.2f} (Savings Rate: {savings_rate_pct:.1f}%). Immediately review discretionary spending and cut down on non-essential items to balance your budget."
+      }
+    },
+    {
+      "id": "rec_savings_rate_low",
+      "category": "Budgeting",
+      "description": "Recommendation for low savings rate",
+      "if": {
+        "and": [
+          {"fact": "savings_rate_pct", "operator": ">=", "value": 0.0},
+          {"fact": "savings_rate_pct", "operator": "<", "value": 20.0}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "medium",
+        "message": "Your current savings rate is {savings_rate_pct:.1f}%, which is below the recommended 20% benchmark. Try using the 50/30/20 budgeting rule: allocate 50% for Needs, 30% for Wants, and at least 20% for Savings and debt paydown."
+      }
+    },
+    {
+      "id": "rec_savings_rate_good",
+      "category": "Budgeting",
+      "description": "Recommendation for good savings rate",
+      "if": {
+        "fact": "savings_rate_pct",
+        "operator": ">=",
+        "value": 20.0
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "low",
+        "message": "Excellent job! Your savings rate of {savings_rate_pct:.1f}% meets or exceeds the 20% financial planning benchmark. Keep maintaining this level of discipline."
+      }
+    },
+    {
+      "id": "rec_housing_cost_high",
+      "category": "Budgeting",
+      "description": "Recommendation for high housing/needs cost",
+      "if": {
+        "fact": "essential_expenses_pct",
+        "operator": ">",
+        "value": 50.0
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "medium",
+        "message": "Your essential expenses (Needs) account for {essential_expenses_pct:.1f}% of your income, exceeding the recommended 50% threshold. Consider negotiating bills, refinancing loans, or reviewing fixed costs to lower this."
+      }
+    },
+    {
+      "id": "rec_wants_cost_high",
+      "category": "Budgeting",
+      "description": "Recommendation for high discretionary spending",
+      "if": {
+        "fact": "discretionary_expenses_pct",
+        "operator": ">",
+        "value": 30.0
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "medium",
+        "message": "Your discretionary spending (Wants) accounts for {discretionary_expenses_pct:.1f}% of your income, exceeding the recommended 30% limit. We recommend tracking subscriptions, dining out, and impulse purchases to find savings."
+      }
+    },
+    {
+      "id": "rec_emergency_fund_none",
+      "category": "Emergency Fund",
+      "description": "Recommendation for no emergency fund",
+      "if": {
+        "fact": "emergency_fund_balance",
+        "operator": "==",
+        "value": 0.0
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "high",
+        "message": "You currently have NO emergency fund. This is a significant risk. Prioritize saving at least $1,000 immediately, and then scale up to cover your basic living expenses."
+      }
+    },
+    {
+      "id": "rec_build_emergency_fund_stable",
+      "category": "Emergency Fund",
+      "description": "Recommendation to build emergency fund with stable income",
+      "if": {
+        "and": [
+          {"fact": "has_stable_income", "operator": "==", "value": true},
+          {"fact": "emergency_fund_months", "operator": "<", "value": 3.0},
+          {"fact": "emergency_fund_months", "operator": ">", "value": 0.0}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "high",
+        "message": "Your emergency fund covers {emergency_fund_months:.1f} months of essential expenses. Since you have stable income, aim to increase this to cover at least 3 months of expenses (Target: {target_emergency_fund:.2f})."
+      }
+    },
+    {
+      "id": "rec_build_emergency_fund_unstable",
+      "category": "Emergency Fund",
+      "description": "Recommendation to build emergency fund with unstable income",
+      "if": {
+        "and": [
+          {"fact": "has_stable_income", "operator": "==", "value": false},
+          {"fact": "emergency_fund_months", "operator": "<", "value": 6.0},
+          {"fact": "emergency_fund_months", "operator": ">", "value": 0.0}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "high",
+        "message": "Your emergency fund covers {emergency_fund_months:.1f} months. Because your income is variable or unstable, you should build a larger safety net covering at least 6 months of expenses (Target: {target_emergency_fund:.2f})."
+      }
+    },
+    {
+      "id": "rec_high_dti",
+      "category": "Debt Management",
+      "description": "Recommendation for high Debt-To-Income ratio",
+      "if": {
+        "fact": "dti_pct",
+        "operator": ">=",
+        "value": 40.0
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "high",
+        "message": "Your Debt-To-Income (DTI) ratio is {dti_pct:.1f}%, which is critically high. Lenders view this as risky, and it restricts your cash flow. Avoid taking on new debt and focus on aggressive payoff strategies."
+      }
+    },
+    {
+      "id": "rec_pay_high_interest_debt",
+      "category": "Debt Management",
+      "description": "Recommendation for high interest debt payoff",
+      "if": {
+        "fact": "has_high_interest_debt",
+        "operator": "==",
+        "value": true
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "high",
+        "message": "You have {high_interest_debt:.2f} in high-interest debt (e.g., credit card debt). Prioritize paying this off immediately. We recommend the Debt Avalanche method (pay highest interest rate first to save money) or Debt Snowball (pay smallest balance first for psychological wins)."
+      }
+    },
+    {
+      "id": "rec_low_interest_debt_only",
+      "category": "Debt Management",
+      "description": "Recommendation for low interest debt",
+      "if": {
+        "and": [
+          {"fact": "total_debt", "operator": ">", "value": 0.0},
+          {"fact": "has_high_interest_debt", "operator": "!=", "value": true}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "low",
+        "message": "You have low-interest debt (such as mortgages or student loans) but no high-interest debt. Continue making regular minimum payments on these, as your capital will yield higher returns if invested elsewhere."
+      }
+    },
+    {
+      "id": "rec_invest_not_ready_debt",
+      "category": "Investment",
+      "description": "Do not invest yet due to high interest debt",
+      "if": {
+        "fact": "has_high_interest_debt",
+        "operator": "==",
+        "value": true
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "medium",
+        "message": "Avoid putting extra funds into long-term investments right now. Paying off your credit card/high-interest debt yields a guaranteed return equal to the interest rate (typically 15-25%), which outperforms the stock market."
+      }
+    },
+    {
+      "id": "rec_invest_not_ready_emergency_fund",
+      "category": "Investment",
+      "description": "Do not invest yet due to low emergency fund",
+      "if": {
+        "and": [
+          {"fact": "has_adequate_emergency_fund", "operator": "!=", "value": true},
+          {"fact": "has_high_interest_debt", "operator": "!=", "value": true}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "medium",
+        "message": "Hold off on investing until your emergency fund is fully funded. Investing without a liquidity cushion forces you to liquidate assets (potentially at a loss) if an unexpected expense arises."
+      }
+    },
+    {
+      "id": "rec_invest_short_horizon",
+      "category": "Investment",
+      "description": "Short investment horizon recommendations",
+      "if": {
+        "and": [
+          {"fact": "ready_to_invest", "operator": "==", "value": true},
+          {"fact": "investment_horizon_years", "operator": "<", "value": 3.0}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "high",
+        "message": "Your investment horizon is short ({investment_horizon_years} years). Avoid the stock market for these funds. Keep them in a High-Yield Savings Account (HYSA), Certificate of Deposit (CD), or Short-term Treasury Bills to protect your principal."
+      }
+    },
+    {
+      "id": "rec_invest_conservative",
+      "category": "Investment",
+      "description": "Conservative investment recommendation",
+      "if": {
+        "and": [
+          {"fact": "ready_to_invest", "operator": "==", "value": true},
+          {"fact": "investment_horizon_years", "operator": ">=", "value": 3.0},
+          {"fact": "risk_tolerance", "operator": "==", "value": "low"}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "medium",
+        "message": "Based on your low risk tolerance and medium-to-long horizon, we recommend a Conservative Portfolio: 20% Equities (global index funds), 60% Fixed Income (bonds/treasuries), and 20% Cash/CDs."
+      }
+    },
+    {
+      "id": "rec_invest_balanced",
+      "category": "Investment",
+      "description": "Balanced investment recommendation",
+      "if": {
+        "and": [
+          {"fact": "ready_to_invest", "operator": "==", "value": true},
+          {"fact": "investment_horizon_years", "operator": ">=", "value": 3.0},
+          {"fact": "risk_tolerance", "operator": "==", "value": "medium"}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "medium",
+        "message": "Based on your medium risk tolerance and medium-to-long horizon, we recommend a Balanced Portfolio: 60% Equities (diversified index funds) and 40% Fixed Income (bonds)."
+      }
+    },
+    {
+      "id": "rec_invest_aggressive",
+      "category": "Investment",
+      "description": "Aggressive investment recommendation",
+      "if": {
+        "and": [
+          {"fact": "ready_to_invest", "operator": "==", "value": true},
+          {"fact": "investment_horizon_years", "operator": ">=", "value": 3.0},
+          {"fact": "risk_tolerance", "operator": "==", "value": "high"}
+        ]
+      },
+      "then": {
+        "action": "recommend",
+        "priority": "medium",
+        "message": "Based on your high risk tolerance and long horizon, we recommend an Aggressive Portfolio: 80-90% Equities (broad stock market index funds/ETFs) and 10-20% Fixed Income or alternative assets."
+      }
+    }
+  ]
+}
