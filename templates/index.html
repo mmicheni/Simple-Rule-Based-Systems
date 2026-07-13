@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tabs-container">
+
+    <!-- ================= TAB 1: ADVISOR ================= -->
+    <div id="advisor-tab" class="tab-content active">
+        <div class="grid-2">
+            
+            <!-- Left Panel: Inputs Form -->
+            <section class="panel glass card" aria-labelledby="inputs-title">
+                <h2 id="inputs-title" class="section-title">💵 Financial Parameters</h2>
+                <form id="financial-form">
+                    
+                    <div class="form-group">
+                        <label for="monthly_income">Monthly Net Take-Home Income ($)</label>
+                        <div class="input-with-slider">
+                            <input type="number" id="monthly_income" name="monthly_income" min="0" max="100000" value="5000" step="100">
+                            <input type="range" id="monthly_income_slider" min="0" max="25000" value="5000" step="100" class="slider">
+                        </div>
+                        <small class="help-text">Your net monthly income after taxes and deductions.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="essential_expenses">Essential Monthly Expenses (Needs) ($)</label>
+                        <div class="input-with-slider">
+                            <input type="number" id="essential_expenses" name="essential_expenses" min="0" max="100000" value="2500" step="50">
+                            <input type="range" id="essential_expenses_slider" min="0" max="15000" value="2500" step="50" class="slider">
+                        </div>
+                        <small class="help-text">Rent/mortgage, utilities, groceries, insurance, and minimum debt payments.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="discretionary_expenses">Discretionary Monthly Expenses (Wants) ($)</label>
+                        <div class="input-with-slider">
+                            <input type="number" id="discretionary_expenses" name="discretionary_expenses" min="0" max="100000" value="1200" step="50">
+                            <input type="range" id="discretionary_expenses_slider" min="0" max="10000" value="1200" step="50" class="slider">
+                        </div>
+                        <small class="help-text">Dining out, entertainment, travel, and shopping.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emergency_fund_balance">Emergency Fund Savings ($)</label>
+                        <div class="input-with-slider">
+                            <input type="number" id="emergency_fund_balance" name="emergency_fund_balance" min="0" max="100000" value="3000" step="100">
+                            <input type="range" id="emergency_fund_balance_slider" min="0" max="50000" value="3000" step="100" class="slider">
+                        </div>
+                        <small class="help-text">Liquid cash reserves in savings accounts, HYSAs, or CDs.</small>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="has_stable_income" name="has_stable_income" checked>
+                        <label for="has_stable_income">Income is Stable & Predictable</label>
+                    </div>
+
+                    <hr class="separator">
+                    <h3 class="panel-subtitle">💳 Debt Profile</h3>
+
+                    <div class="form-group">
+                        <label for="total_debt">Total Outstanding Debt ($)</label>
+                        <div class="input-with-slider">
+                            <input type="number" id="total_debt" name="total_debt" min="0" max="1000000" value="15000" step="500">
+                            <input type="range" id="total_debt_slider" min="0" max="200000" value="15000" step="500" class="slider">
+                        </div>
+                        <small class="help-text">Total balance of all mortgage, student loans, car loans, and credit cards.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="high_interest_debt">High-Interest Debt (>7% APR) ($)</label>
+                        <div class="input-with-slider">
+                            <input type="number" id="high_interest_debt" name="high_interest_debt" min="0" max="100000" value="2000" step="100">
+                            <input type="range" id="high_interest_debt_slider" min="0" max="50000" value="2000" step="100" class="slider">
+                        </div>
+                        <small class="help-text">Credit cards, payday loans, or high-rate personal loans.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthly_debt_payments">Total Minimum Monthly Debt Payment ($)</label>
+                        <div class="input-with-slider">
+                            <input type="number" id="monthly_debt_payments" name="monthly_debt_payments" min="0" max="100000" value="350" step="10">
+                            <input type="range" id="monthly_debt_payments_slider" min="0" max="5000" value="350" step="10" class="slider">
+                        </div>
+                        <small class="help-text">The sum of all minimum monthly payments required by your lenders.</small>
+                    </div>
+
+                    <hr class="separator">
+                    <h3 class="panel-subtitle">🎯 Investment Profile</h3>
+
+                    <div class="form-group">
+                        <label for="risk_tolerance">Investment Risk Tolerance</label>
+                        <select id="risk_tolerance" name="risk_tolerance">
+                            <option value="low">Low (Capital Preservation)</option>
+                            <option value="medium" selected>Medium (Balanced Growth)</option>
+                            <option value="high">High (Maximum Growth)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="investment_horizon_years">Investment Horizon (Years)</label>
+                        <div class="input-with-slider">
+                            <input type="number" id="investment_horizon_years" name="investment_horizon_years" min="1" max="40" value="8" step="1">
+                            <input type="range" id="investment_horizon_years_slider" min="1" max="40" value="8" step="1" class="slider">
+                        </div>
+                        <small class="help-text">When will you need to withdraw or use these investment funds?</small>
+                    </div>
+
+                </form>
+            </section>
+            
+            <!-- Right Panel: Outputs -->
+            <div class="output-container">
+                
+                <!-- Financial Metrics KPI Grid -->
+                <section class="metrics-grid" aria-label="Key Financial Metrics">
+                    <div class="metric-card card glass">
+                        <span class="metric-lbl">Monthly Savings</span>
+                        <span id="metric-savings" class="metric-val">$1,300.00</span>
+                        <span id="metric-savings-rate" class="metric-sub text-green">26.0% Rate</span>
+                    </div>
+                    <div class="metric-card card glass">
+                        <span class="metric-lbl">Emergency Fund</span>
+                        <span id="metric-ef-months" class="metric-val">1.2 Months</span>
+                        <span id="metric-ef-target" class="metric-sub text-red">Target: 3.0 Mo ($7,500)</span>
+                    </div>
+                    <div class="metric-card card glass">
+                        <span class="metric-lbl">Debt-to-Income (DTI)</span>
+                        <span id="metric-dti" class="metric-val">7.0%</span>
+                        <span id="metric-dti-status" class="metric-sub text-green">Healthy DTI</span>
+                    </div>
+                    <div class="metric-card card glass">
+                        <span class="metric-lbl">High-Interest Debt</span>
+                        <span id="metric-hi-debt" class="metric-val">$2,000.00</span>
+                        <span id="metric-hi-debt-status" class="metric-sub text-red">Action Required</span>
+                    </div>
+                </section>
+
+                <!-- Chart & Advice Grid -->
+                <div class="grid-2 mt-20">
+                    <!-- Donut Chart -->
+                    <section class="panel glass card text-center" aria-labelledby="chart-title">
+                        <h3 id="chart-title" class="section-title">📦 Budget Allocation</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="budgetChart"></canvas>
+                        </div>
+                    </section>
+                    
+                    <!-- Recommendations Box -->
+                    <section class="panel glass card" aria-labelledby="recs-title">
+                        <h3 id="recs-title" class="section-title">💡 Advisor Recommendations</h3>
+                        <div id="recommendations-list" class="recs-list">
+                            <!-- Recommendations dynamically inserted here -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Explanation Trace -->
+                <section class="panel glass card mt-20" aria-labelledby="trace-title">
+                    <button class="accordion-header" id="trace-toggle">
+                        <h3 id="trace-title" class="section-title m-0">🕵️ Detailed Inference Engine Explainer Trace</h3>
+                        <span class="accordion-arrow">▼</span>
+                    </button>
+                    <div id="trace-content" class="accordion-content hidden">
+                        <h4>Rule Firing Chain</h4>
+                        <div class="table-container">
+                            <table id="trace-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cycle</th>
+                                        <th>Rule ID</th>
+                                        <th>Category</th>
+                                        <th>Action Taken</th>
+                                        <th>Logic Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Trace items dynamically inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="mt-20">Fact Base State</h4>
+                        <p>These are all the parameters (user-defined and inferred) present in the fact base:</p>
+                        <pre id="fact-base-json" class="json-box"></pre>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= TAB 2: ACQUISITION ================= -->
+    <div id="acquisition-tab" class="tab-content">
+        <div class="grid-2">
+            
+            <!-- Left Side: Add Rule Form -->
+            <section class="panel glass card" aria-labelledby="add-rule-title">
+                <h2 id="add-rule-title" class="section-title">✍️ Add Recommendation Rule</h2>
+                <p class="section-desc">Create custom financial rules. The system validates them for syntax, duplicate rules, and circular logic before saving.</p>
+                
+                <form id="rule-form">
+                    
+                    <div class="form-group">
+                        <label for="rule_id">Rule ID (unique identifier)</label>
+                        <input type="text" id="rule_id" name="rule_id" placeholder="rec_high_rent_warning" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rule_category">Category</label>
+                        <select id="rule_category" name="rule_category">
+                            <option value="Budgeting">Budgeting</option>
+                            <option value="Saving">Saving</option>
+                            <option value="Emergency Fund">Emergency Fund</option>
+                            <option value="Debt Management">Debt Management</option>
+                            <option value="Investment">Investment</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rule_desc">Rule Description</label>
+                        <input type="text" id="rule_desc" name="rule_desc" placeholder="Fires when rent exceeds 40% of net income" required>
+                    </div>
+
+                    <fieldset class="rule-fieldset">
+                        <legend>Condition (IF)</legend>
+                        <div class="condition-row">
+                            <div class="form-group">
+                                <label for="cond_fact">Fact Name</label>
+                                <input type="text" id="cond_fact" name="cond_fact" placeholder="savings_rate_pct" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cond_op">Operator</label>
+                                <select id="cond_op" name="cond_op">
+                                    <option value="==">==</option>
+                                    <option value="!=">!=</option>
+                                    <option value=">">&gt;</option>
+                                    <option value="<">&lt;</option>
+                                    <option value=">=">&gt;=</option>
+                                    <option value="<=">&lt;=</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cond_val">Value</label>
+                                <input type="text" id="cond_val" name="cond_val" placeholder="20" required>
+                            </div>
+                        </div>
+                        <small class="help-text">Values can be numbers (e.g. 20) or booleans (e.g. true/false).</small>
+                    </fieldset>
+
+                    <fieldset class="rule-fieldset">
+                        <legend>Action (THEN)</legend>
+                        
+                        <div class="form-group radio-selector">
+                            <label><input type="radio" name="action_type" value="recommend" checked> Make Recommendation</label>
+                            <label><input type="radio" name="action_type" value="derive"> Derive New Fact</label>
+                        </div>
+
+                        <!-- Fields for Recommend -->
+                        <div id="recommend-fields">
+                            <div class="form-group">
+                                <label for="rec_priority">Recommendation Priority</label>
+                                <select id="rec_priority" name="rec_priority">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="rec_message">Recommendation Message</label>
+                                <textarea id="rec_message" name="rec_message" rows="3" placeholder="Your savings rate is low, try cutting discretionary expenses..."></textarea>
+                                <small class="help-text">Use variables from the fact base inside curly braces, e.g. {savings_rate_pct:.1f}%</small>
+                            </div>
+                        </div>
+
+                        <!-- Fields for Derive -->
+                        <div id="derive-fields" class="hidden">
+                            <div class="form-group">
+                                <label for="derive_fact">Derived Fact Name</label>
+                                <input type="text" id="derive_fact" name="derive_fact" placeholder="ready_to_invest">
+                            </div>
+                            <div class="form-group">
+                                <label for="derive_value">Derived Fact Value</label>
+                                <input type="text" id="derive_value" name="derive_value" placeholder="true">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="submit-btn mt-20">Validate & Save Rule</button>
+                </form>
+
+                <div id="validation-alert" class="alert mt-20 hidden"></div>
+            </section>
+            
+            <!-- Right Side: Existing Rules -->
+            <section class="panel glass card" aria-labelledby="existing-rules-title">
+                <h2 id="existing-rules-title" class="section-title">📚 Currently Loaded Rules</h2>
+                <div class="table-container list-rules-container">
+                    <table id="rules-table">
+                        <thead>
+                            <tr>
+                                <th>Rule ID</th>
+                                <th>Category</th>
+                                <th>Condition (IF)</th>
+                                <th>Action (THEN)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Loaded rules list dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- ================= TAB 3: DOCS ================= -->
+    <div id="docs-tab" class="tab-content">
+        <section class="panel glass card" aria-labelledby="info-title">
+            <h2 id="info-title" class="section-title">ℹ️ Knowledge-Based System Details</h2>
+            
+            <div class="docs-content">
+                <h3>System Architecture & Design</h3>
+                <p>This application implements a complete <strong>Knowledge-Based System (KBS)</strong> tailored for personal financial planning advice. The architecture separates domain facts and validation rules from the evaluation execution code:</p>
+                
+                <div class="docs-grid">
+                    <div class="docs-card">
+                        <h4>1. Knowledge Base</h4>
+                        <p>All declarative knowledge rules are defined in a structural JSON file (<code>knowledge_base.json</code>). Each rule represents conditional statements matching fact values and triggering subsequent fact derivations or user advice blocks.</p>
+                    </div>
+                    <div class="docs-card">
+                        <h4>2. Inference Engine</h4>
+                        <p>Implements a custom **Forward-Chaining** reasoning cycle. Starting with user inputs, the engine repeatedly fires rules that evaluate to True. Derivation rules inject new intermediate facts, causing the engine to execute subsequent cycles until no further facts can be derived.</p>
+                    </div>
+                    <div class="docs-card">
+                        <h4>3. Knowledge Acquisition</h4>
+                        <p>Incorporates validation procedures. Before saving any rule, the system validates the syntax, screens for duplicates, and builds a dependency map to check for circular paths, protecting the reasoning loop from logical crashes.</p>
+                    </div>
+                </div>
+
+                <h3 class="mt-20">Git & Github Collaboration Guidelines</h3>
+                <p>For group collaboration, project members should execute feature modifications in separate Git branches using clean, semantic commits before requesting merges:</p>
+                <ul>
+                    <li><strong>Branching:</strong> Checkout a new branch for your task: <code>git checkout -b feature-yourname-flask-ui</code></li>
+                    <li><strong>Committing:</strong> Make descriptive commits to track details: <code>git commit -m "Added Flask REST endpoint for rule validation"</code></li>
+                    <li><strong>PR Reviews:</strong> Push changes, open a Pull Request, assign a reviewer, resolve conflict comments, and merge.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+</div>
+{% endblock %}

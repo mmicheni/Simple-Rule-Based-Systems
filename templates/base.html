@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Finance Advisor KBS</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">💰</span>
+                <h1>Smart Finance Advisor <span class="badge">KBS</span></h1>
+            </div>
+            <nav class="nav-links">
+                <button class="nav-btn active" data-target="advisor-tab">📈 Advisor Dashboard</button>
+                <button class="nav-btn" data-target="acquisition-tab">✍️ Rule Acquisition</button>
+                <button class="nav-btn" data-target="docs-tab">ℹ️ System Info</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="app-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-footer">
+        <div class="footer-container">
+            <p>Personal Finance Advisor KBS &copy; 2026. Made with Python & Flask.</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
